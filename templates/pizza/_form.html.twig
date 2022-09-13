@@ -1,0 +1,29 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    
+    <div class="form-group">
+    
+        Ingredients
+        {% for ingredient in ingredients %}        
+            {% set active = false %}
+            {% set position = false %}
+            {% for pizzaIngredients in pizza.pizzaIngredients %}
+                {% if pizzaIngredients.Ingredient.id == ingredient.id %}
+                    {% set active = true %}
+                    {% set position = pizzaIngredients.position %}
+                    {% set break = true %}
+                {% endif %}
+            {% endfor %}
+            <div>
+                <input type="number" id="position_{{ingredient.id}}" name="position_{{ingredient.id}}" value="{{position}}" {{active ? 'checked="checked"' : ''}}>
+                <input type="checkbox" id="ingredient_{{ingredient.id}}" name="ingredients[]" value="{{ingredient.id}}" {{active ? 'checked="checked"' : ''}}>
+                <label for="ingredient_{{ingredient.id}}">{{ingredient.name}}</label>
+            </div>
+        {% endfor %}
+    </div>
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+
